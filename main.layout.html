@@ -1,0 +1,215 @@
+<div id="page-container" class="fade page-sidebar-fixed page-header-fixed" ng-class="{'page-sidebar-minified': $ctrl.minified, 'page-sidebar-toggled': $ctrl.isToggled}">
+    <div id="header" class="header navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a ui-sref='/' class="navbar-brand">
+                    <span class="navbar-logo"></span> Heal and Recover</a>
+                <button type="button" class="navbar-toggle" ng-click="$ctrl.slimToggle()">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown navbar-user">
+                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+                        <img src="{{ $ctrl.userData.imageUrl }}" alt="">
+                        <span class="hidden-xs">{{ $ctrl.userDisplayName }}</span>
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu animated fadeInLeft">
+                        <li class="arrow"></li>
+                        <li>
+                            <a href="javascript:;" ui-sref="main.settings">Settings</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="javascript:;" ng-click="$ctrl.logout()">Log Out</a>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+    <div ng-show="$ctrl.userData.userType == 'Admin'" id="sidebar" class="sidebar">
+        <div class='has-sub' slimscroll="{'height': '100%', alwaysVisible: true }" close-others=true>
+            <div is-open=true>
+                <ul class='nav'>
+                    <li class="nav-header">Navigation</li>
+                    <li class="has-sub mainLayout-menuItemSelect" ng-class="{'active': $ctrl.active()}">
+                        <a ng-click="$ctrl.collapse()">
+                            <b class="caret pull-right"></b>
+                            <i class="fa fa-laptop"></i>
+                            <span class="info mainLayout-menuItemSelect">Data Management</span>
+                        </a>
+                        <ul uib-collapse='$ctrl.isCollapsed' class="sub-menu" ng-style="{display: $ctrl.checkCollapsed()}">
+                            <li ng-repeat="x in $ctrl.entityArray" ui-sref-active="{'active': x.entity}">
+                                <a ui-sref-active='active' ui-sref='{{x.entity}}.list'>
+                                    <span>{{x.name}}</span>
+                                </a>
+                            </li>
+                            <li ui-sref-active="{'active': 'main.supportInvitationsList'}">
+                                <a ui-sref-active='active' ui-sref='main.supportInvitationsList'>
+                                    <span>Support Invitations List</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <li class="has-sub mainLayout-menuItemSelect" ui-sref-active="{'active': 'main.login'}">
+                            <a ui-sref-active='active' ui-sref='main.login'>
+                                <i class="fa fa-key"></i>
+                                <span class="info mainLayout-menuItemSelect">User Login</span>
+                            </a>
+                        </li>
+                        <li class="has-sub mainLayout-menuItemSelect" ui-sref-active="{'active': 'main.register'}">
+                            <a ui-sref-active='active' ui-sref='main.register'>
+                                <i class="fa fa-edit"></i>
+                                <span class="info mainLayout-menuItemSelect">User Registration</span>
+                            </a>
+                        </li>
+                    </li>
+                    <li>
+                        <a ng-click="$ctrl.hideBar()" class="sidebar-minify-btn mainLayout-menuItemSelect">
+                            <i class="fa fa-angle-double-left"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div ng-show="$ctrl.userData.userType == 'Client'" id="sidebar" class="sidebar">
+        <div class='has-sub' slimscroll="{'height': '100%', alwaysVisible: true }" close-others=true>
+            <div is-open=true>
+                <ul class='nav'>
+                    <li class="nav-header">Navigation</li>
+                    <li class="has-sub mainLayout-menuItemSelect" ng-class="{'active': $ctrl.active()}">
+                        <li class="has-sub mainLayout-menuItemSelect">
+                            <a ui-sref='main.journal'>
+                                <i class="fa fa-calendar"></i>
+                                <span class="info mainLayout-menuItemSelect">My Journal</span>
+                            </a>
+                        </li>
+                        <li class="has-sub mainLayout-menuItemSelect">
+                            <a ui-sref='main.supporters'>
+                                <i class="fa fa-heart"></i>
+                                <span class="info mainLayout-menuItemSelect">My Supporters</span>
+                            </a>
+                        </li>
+                        <li class="has-sub mainLayout-menuItemSelect">
+                            <a ui-sref='main.myTimeline'>
+                                <i class="fa fa-clock-o"></i>
+                                <span class="info mainLayout-menuItemSelect">My Timeline</span>
+                            </a>
+                        </li>
+                        <li class="has-sub mainLayout-menuItemSelect">
+                            <a ui-sref='main.userProfile({ id: $ctrl.userData._id})'>
+                                <i class="fa fa-square-o"></i>
+                                <span class="info mainLayout-menuItemSelect">My Profile</span>
+                            </a>
+                        </li>
+                        <li class="has-sub mainLayout-menuItemSelect">
+                            <a ui-sref='main.supportees'>
+                                <i class="fa fa-group"></i>
+                                <span class="info mainLayout-menuItemSelect">My Supportees</span>
+                            </a>
+                        </li>
+                    </li>
+                    <li>
+                        <a ng-click="$ctrl.hideBar()" class="sidebar-minify-btn mainLayout-menuItemSelect">
+                            <i class="fa fa-angle-double-left"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div ng-show="$ctrl.userData.userType == 'Therapist'" id="sidebar" class="sidebar">
+        <div class='has-sub' slimscroll="{'height': '100%', alwaysVisible: true }" close-others=true>
+            <div is-open=true>
+                <ul class='nav'>
+                    <li class="nav-header">Navigation</li>
+                    <li class="has-sub mainLayout-menuItemSelect" ng-class="{'active': $ctrl.active()}">
+                        <li class="has-sub mainLayout-menuItemSelect">
+                            <a ui-sref='main.myClients'>
+                                <i class="fa fa-group"></i>
+                                <span class="info mainLayout-menuItemSelect">Clients</span>
+                            </a>
+                        </li>
+                        <li class="has-sub mainLayout-menuItemSelect">
+                            <a ui-sref='main.journal'>
+                                <i class="fa fa-calendar"></i>
+                                <span class="info mainLayout-menuItemSelect">My Journal</span>
+                            </a>
+                        </li>
+                        <li class="has-sub mainLayout-menuItemSelect">
+                            <a ui-sref='main.supporters'>
+                                <i class="fa fa-heart"></i>
+                                <span class="info mainLayout-menuItemSelect">My Support Network</span>
+                            </a>
+                        </li>
+                        <li class="has-sub mainLayout-menuItemSelect">
+                            <a ui-sref='main.userProfile({ id: $ctrl.userData._id})'>
+                                <i class="fa fa-square-o"></i>
+                                <span class="info mainLayout-menuItemSelect">My Profile</span>
+                            </a>
+                        </li>
+                    </li>
+                    <li>
+                        <a ng-click="$ctrl.hideBar()" class="sidebar-minify-btn mainLayout-menuItemSelect">
+                            <i class="fa fa-angle-double-left"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <div ng-show="$ctrl.userData.userType == 'Supporter'" id="sidebar" class="sidebar">
+        <div class='has-sub' slimscroll="{'height': '100%', alwaysVisible: true }" close-others=true>
+            <div is-open=true>
+                <ul class='nav'>
+                    <li class="nav-header">Navigation</li>
+                    <li class="has-sub mainLayout-menuItemSelect" ng-class="{'active': $ctrl.active()}">
+                        <li ng-repeat="supportee in $ctrl.supportees">
+                            <a href='/profiles/{{supportee._id}}'>
+                                <i class="fa fa-heart-o"></i>
+                                <span>{{supportee.firstName}}</span>
+                            </a>
+                        </li>
+                    </li>
+                    <li>
+                        <a ng-click="$ctrl.hideBar()" class="sidebar-minify-btn mainLayout-menuItemSelect">
+                            <i class="fa fa-angle-double-left"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="sidebar-bg"></div>
+    <div id="content" class="content" ng-click="$ctrl.pageClick()">
+        <div ui-view="body"></div>
+    </div>
+    <div>
+        <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top">
+            <i class="fa fa-angle-up"></i>
+        </a>
+    </div>
+</div>
+<script>
+        "use strict"
+        setTimeout(() => {
+
+            $('#page-loader').addClass('hide')
+            $('#page-container').addClass('in')
+        })
+
+</script>
